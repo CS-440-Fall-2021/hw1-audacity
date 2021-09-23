@@ -49,14 +49,12 @@ def resize(path):
                     (x, y), ((a[0] + b[0])//2, (a[1] + b[1])//2, (a[2] + b[2])//2, (a[3] + b[3])//2))
 
             if x % 2 != 0 and x == resizedImage.size[0] - 1:
-                a = resizedImage.getpixel((x-1, y))
                 resizedImage.putpixel(
-                    (x, y), (a[0]//2, a[1]//2, a[2]//2, a[3]//2))
+                    (x, y), resizedImage.getpixel((x-1, y)))
 
             if y % 2 != 0 and y == resizedImage.size[1] - 1:
-                a = resizedImage.getpixel((x, y-1))
                 resizedImage.putpixel(
-                    (x, y), (a[0]//2, a[1]//2, a[2]//2, a[3]//2))
+                    (x, y), resizedImage.getpixel((x, y-1)))
 
     for x in range(resizedImage.size[0]):
         for y in range(resizedImage.size[1]):
@@ -83,4 +81,4 @@ def resize(path):
 # img.img.save("save.png")
 
 # blow("images/logo.png")
-# resize("images/logo.png")
+resize("images/logo.png")
