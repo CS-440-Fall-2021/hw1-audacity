@@ -32,6 +32,8 @@ def sierpinski(img: MyImage, n: int, p1: (int, int), p2: (int, int), p3: (int, i
         color = select_color(current_pos, p1, p2, p3)
 
         img.putpixel(current_pos, (*color, 255))
+    
+    img.show()
 
 
 
@@ -54,7 +56,7 @@ img = MyImage(image_size, 0, 1, 'RGBA')
 sierpinski(img, n, p1, p2, p3)
 
 img.img.save("sierpenski.png")
-img.show()
+# img.show()
 
 
 
