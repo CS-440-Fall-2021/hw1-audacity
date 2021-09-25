@@ -65,4 +65,25 @@ def circle(radius: int, subdivisions_: int):
 
     return img
 
-circle(50, 10).img.save("circle.png")
+# circle(50, 10).img.save("circle.png")
+
+
+def sierpinski(recursions: int):
+    width = 100
+    height = 100
+    
+    img = MyImage(( width+1, height+1 ), 0, 1, 'RGBA')
+
+    triangle_coordinates = [[]]
+
+    triangle_coordinates[0].append((0, height))
+    triangle_coordinates[0].append((width // 2, 0))
+    triangle_coordinates[0].append((width, height))
+
+
+    for triangle in triangle_coordinates:
+        draw_polygon(img, triangle, [(0, 0, 0, 255) for i in range(len(triangle))])
+
+    return img
+
+sierpinski(0).img.save("sierpinski.png")
