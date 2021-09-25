@@ -39,7 +39,7 @@ def draw_line(img: MyImage, P: (int, int), Q: (int, int), P_color: (int,)*4, Q_c
     img.putpixel(P, P_color)
     point_color.append((P, P_color))
     
-    if (P == Q): return
+    if (P == Q): return []
 
     gradient_x, gradient_y, max_dist = calc_gradient(P, Q)
 
@@ -70,6 +70,7 @@ def draw_line(img: MyImage, P: (int, int), Q: (int, int), P_color: (int,)*4, Q_c
     img.putpixel(Q, Q_color)
     point_color.append((Q, Q_color))
 
+    # print(point_color)
     return point_color
 
 def draw_polygon_dda(img: MyImage, points: [(int, int), ...], colors: [(int, int, int, int), ...]):
