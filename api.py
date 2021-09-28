@@ -1,6 +1,7 @@
 from myimage import *
 import math, numpy
 
+# Calculate gradients of line
 def calc_gradient(P: (int, int), Q: (int, int)):
     dy = Q[1] - P[1]
     dx = Q[0] - P[0]
@@ -12,6 +13,7 @@ def calc_gradient(P: (int, int), Q: (int, int)):
 
     return dx, dy, max_dist
 
+# Draws a line using the DDA Algo
 def draw_line_dda(img: MyImage, P: (int, int), Q: (int, int)):
     if (P == Q): return
     
@@ -22,6 +24,7 @@ def draw_line_dda(img: MyImage, P: (int, int), Q: (int, int)):
     current_pos = P
     actual_x, actual_y = current_pos
 
+    # Updates x and y coordinates to plot the line
     for _ in range(max_dist):
         actual_x += gradient_x
         actual_y += gradient_y
@@ -32,9 +35,11 @@ def draw_line_dda(img: MyImage, P: (int, int), Q: (int, int)):
     img.putpixel(Q, (255, 255, 255, 255))
 
 
-def draw_line(img: MyImage, P: (int, int), Q: (int, int), P_color: (int,)*4, Q_color: (int,)*4):
+# Draws a line with a color gradient
+def draw_line(img: MyImage, P: (int, int), Q: (int, int), \
+                P_color: (int,)*4, Q_color: (int,)*4) -> ( (int,)*3, (int,)*4 ):
 
-    point_color = []
+    point_color = [] # Stores (coordinates, color) pairs of pixels in line
 
     img.putpixel(P, P_color)
     point_color.append((P, P_color))
@@ -49,10 +54,13 @@ def draw_line(img: MyImage, P: (int, int), Q: (int, int), P_color: (int,)*4, Q_c
     current_color = list(P_color)[:]
     actual_color = current_color[:]
 
+    # Calculating the color channel gradients
     gradient_color = []
     for i in range(4):
         gradient_color.append((Q_color[i] - P_color[i]) / (max_dist+1))
     
+
+    # Updates x, y coordinates and color channels to plot the line
     for _ in range(max_dist+1):
         actual_x += gradient_x
         actual_y += gradient_y
@@ -70,9 +78,9 @@ def draw_line(img: MyImage, P: (int, int), Q: (int, int), P_color: (int,)*4, Q_c
     img.putpixel(Q, Q_color)
     point_color.append((Q, Q_color))
 
-    # print(point_color)
     return point_color
 
+# Draws a polygon by connecting successive points
 def draw_polygon_dda(img: MyImage, points: [(int, int), ...], colors: [(int, int, int, int), ...]):
 
     for i in range(1, len(points)):
@@ -84,6 +92,7 @@ def draw_polygon_dda(img: MyImage, points: [(int, int), ...], colors: [(int, int
         img.putpixel(points[0], colors[0])
 
 
+# Draws a polygon by connecting successive points and fills it
 def draw_polygon(img: MyImage, points: [(int, int), ...], colors: [(int, int, int, int), ...], fill: bool = True):
     point_color = []
 
@@ -98,7 +107,7 @@ def draw_polygon(img: MyImage, points: [(int, int), ...], colors: [(int, int, in
     lines_drawn = 0
 
     if fill:
-        row_separated = {}
+        row_separated = {} # Separates each row for filling
 
         for i in point_color:
             if i[0][1] not in row_separated:
@@ -113,53 +122,45 @@ def draw_polygon(img: MyImage, points: [(int, int), ...], colors: [(int, int, in
                 draw_line(img, P = (row_[k-1][0], row), Q = (row_[k][0], row), P_color = row_[k-1][1], Q_color = row_[k][1])
                 lines_drawn += 1
 
-        # print(row_separated)
-            
-        # point_color.sort(key=lambda x: x[0][0])
-        # # print(point_color)    
-
-        # for i in range(1, len(point_color)):
-            
-        #     if point_color[i-1][0][0] != point_color[i][0][0]:
-        #         continue
-        #     lines_drawn +=1
-        #     draw_line(img, P = point_color[i-1][0], Q = point_color[i][0], P_color = point_color[i-1][1], Q_color = point_color[i][1])
-    # print(lines_drawn)
 
 
 
-# Size of image
-image_size = (200, 200)
-# image_size = (20, 10)
+def api_test():
+    # Size of image
+    image_size_line = (20, 10)
+    image_size_polygon = (200, 200)
 
 
-# # Starting and Ending points for draw_line
-# P = (0, 4)
-# Q = (9, 0)
- 
-# # Color of points
-# P_color = (255, 0, 0, 255)
-# Q_color = (0, 0, 255, 255)
+    # Starting and Ending points for draw_line
+    P = (0, 4)
+    Q = (9, 0)
+    
+    # Color of points
+    P_color = (255, 0, 0, 255)
+    Q_color = (0, 0, 255, 255)
 
-# List of points for polygon
-points = [(50, 100), (100, 0), (150, 100)]
-# points = [(1, 1), (1, 9), (18, 9), (18, 1)]
-# points = [(1, 8), (10, 1), (18, 8)]
-# points = [(5,5), (10, 9)]
+    # List of points for polygon
+    points = [(50, 100), (100, 0), (150, 100)]
+    # points = [(1, 1), (1, 9), (18, 9), (18, 1)]
+    # points = [(1, 8), (10, 1), (18, 8)]
+    # points = [(5,5), (10, 9)]
 
-# List of colors for polygon
-colors = [(255, 0, 0, 255), (0, 255, 0, 255), (0, 0, 255, 255)]
-# colors = [(0, 255, 0, 255), (255, 0, 0, 255), (255, 255, 255, 255), (0, 0, 255, 255)]
-# colors = [(255, 0, 0, 255), (0, 255, 0 ,255), (0, 0, 255, 255)]
-# colors = [(255, 0, 0, 255), (0, 255, 0, 255)]
+    # List of colors for polygon
+    colors = [(255, 0, 0, 255), (0, 255, 0, 255), (0, 0, 255, 255)]
+    # colors = [(0, 255, 0, 255), (255, 0, 0, 255), (255, 255, 255, 255), (0, 0, 255, 255)]
+    # colors = [(255, 0, 0, 255), (0, 255, 0 ,255), (0, 0, 255, 255)]
+    # colors = [(255, 0, 0, 255), (0, 255, 0, 255)]
 
 
-img = MyImage(image_size, 3, 10, 'RGBA')
+    img_line = MyImage(image_size_line, 3, 10, 'RGBA')
+    img_polygon = MyImage(image_size_polygon, 3, 10, 'RGBA')
 
-# draw_line_dda(img, P, Q)
-# draw_line(img, P, Q, P_color, Q_color)
-# draw_polygon_dda(img, points, colors)
-draw_polygon(img, points, colors, True)
 
-# img.show()
-img.img.save("draw_line_dda.png")
+    draw_line(img_line, P, Q, P_color, Q_color)
+    draw_polygon(img_polygon, points, colors, True)
+
+    img_line.show()
+    img_polygon.show()
+
+if __name__ == '__main__':
+    api_test()

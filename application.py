@@ -1,6 +1,5 @@
 from PIL.Image import register_decoder
-from myimage import MyImage
-from api_salman import *
+from api import *
 
 
 # def circle(radius: int, subdivisions_: int):
@@ -151,3 +150,6 @@ def sierpinski(level):  # main function
 def application_test():  # funct to test circle and sierpinski
     circle(100, 4).show()
     sierpinski(4).show()
+
+if __name__ == '__main__':
+    application_test()
