@@ -94,7 +94,7 @@ def draw_polygon_dda(img: MyImage, points: [(int, int), ...], colors: [(int, int
 
 # Draws a polygon by connecting successive points and fills it
 def draw_polygon(img: MyImage, points: [(int, int), ...], colors: [(int, int, int, int), ...], fill: bool = True):
-    point_color = []
+    point_color = [] # Stores (coordinates, color) pairs
 
     for i in range(1, len(points)):
         point_color += draw_line(img, P = points[i-1], Q = points[i], P_color = colors[i-1], Q_color = colors[i])
