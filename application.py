@@ -90,8 +90,9 @@ def sierpinski_level(img, level, points):  # recursive funtion to draw triangles
 
 
 def sierpinski(level):  # main function
+
     # dimension for each triangle (reduce it speed up the process, reducing will reduce the quality too)
-    dimension = 1000
+    dimension = 500
     
     gap = 10  # gap between each triangle in pixels
     
